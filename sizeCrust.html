@@ -1,0 +1,499 @@
+  <!DOCTYPE html>
+  <html  ng-app="plunker">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular.min.js"> </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/2.4.3/fabric.min.js"> </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+ <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript" src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart","controls","table"]}]}'></script>
+ <script src="http://www.google.com/jsapi"></script>
+ <script type = "text/javascript">
+ google.charts.load('current', {'packages':['corechart']});
+         google.charts.load('current', {packages: ['sankey']}); 
+         google.charts.setOnLoadCallback(drawChart);    
+      </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous">
+  </script>
+  <script src="app.js"></script>
+  <script>
+
+  $('.next').click(function(){
+
+    var nextId = $(this).parents('.tab-pane').next().attr("id");
+    $('[href=#'+nextId+']').tab('show');
+    return false;
+    
+  })
+
+  $('.back').click(function(){
+
+    var prevId = $(this).parents('.tab-pane').prev().attr("id");
+    $('[href=#'+prevId+']').tab('show');
+    return false;
+    
+  })
+
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+    
+    //update progress
+    var step = $(e.target).data('step');
+    var percent = (parseInt(step) / 4) * 100;
+    
+    $('.progress-bar').css({width: percent + '%'});
+    $('.progress-bar').text("Step " + step + " of 5");
+    
+    //e.relatedTarget // previous tab
+    
+  })
+
+  $('.first').click(function(){
+
+    $('#myWizard a:first').tab('show')
+
+  })
+
+  </script>
+  </head>
+
+  <style>
+  li.active > a.hidden-xs {
+   display: block!important;
+  }
+  li.active > a.visible-xs {
+    display: none!important; 
+  }
+  .nav-pills.nav-wizard > li {
+    position: relative;
+    overflow: visible;
+    border-right: 10px solid #fff;
+    border-left: 10px solid #fff;
+  }
+  .nav-pills.nav-wizard > li:first-child {
+    border-left: 0;
+  }
+  .nav-pills.nav-wizard > li:first-child a {
+    border-radius: 5px 0 0 5px;
+  }
+  .nav-pills.nav-wizard > li:last-child {
+    border-right: 0;
+  }
+  .nav-pills.nav-wizard > li:last-child a {
+    border-radius: 0 5px 5px 0;
+  }
+  .nav-pills.nav-wizard > li a {
+    border-radius: 0;
+    background-color: #eee;
+    padding: 10px;
+  }
+  .nav-pills.nav-wizard > li .nav-arrow {
+    position: absolute;
+    top: 0px;
+    right: -20px;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: transparent transparent transparent #eee;
+    z-index: 150;
+  }
+  .nav-pills.nav-wizard > li .nav-wedge {
+    position: absolute;
+    top: 0px;
+    left: -20px;
+    width: 0px;
+    height: 0px;
+    border-style: solid;
+    border-width: 20px 0 20px 20px;
+    border-color: #eee #eee #eee transparent;
+    z-index: 150;
+  }
+  .nav-pills.nav-wizard > li:hover .nav-arrow {
+    border-color: transparent transparent transparent #aaa;
+  }
+  .nav-pills.nav-wizard > li:hover .nav-wedge {
+    border-color: #aaa #aaa #aaa transparent;
+  }
+  .nav-pills.nav-wizard > li:hover a {
+    background-color: #aaa;
+    color: #fff;
+  }
+  .nav-pills.nav-wizard > li.active .nav-arrow {
+    border-color: transparent transparent transparent #428bca;
+  }
+  .nav-pills.nav-wizard > li.active .nav-wedge {
+    border-color: #428bca #428bca #428bca transparent;
+  }
+  .nav-pills.nav-wizard > li.active a {
+    background-color: #428bca;
+  }
+  /* Just looks nicer */
+  .credit-card-box .panel-heading img {
+      min-width: 180px;
+  }
+  .btn{background-color: #2c2b2b;color: #ffff;}
+  .mainHead{color: #ffff; text-align: center;}
+  .navbar-inner{background-color: #ffffff;
+      padding: 10px;}
+  .container{border: solid #202bae 1px;
+      background-color: #428bca;
+      padding: 18px;}
+  .verticalLine {
+      border-right: 1px solid #ccc0c0;
+      width: 20%;
+      margin-right: 10px;
+  }
+  .verticalLineTopping{border-right: 1px solid #ccc0c0;
+      width: 25%;
+      margin-right: 82px;}
+  .verticalLineTopping50{border-right: 1px solid #ccc0c0;
+      width: 50%;
+      margin-right: 82px;}
+  .verticalLineTopping1{width: 25%;}
+  .verticalLineToppingLast{width: 50%;}
+  .verticalLineToppingMeat{width: 50%;}
+  .verticalLineToppingLastCrust{width: 25;}
+    #sizeCrust{display: flex;}
+  .heading{color: #608ee1;}
+    .thumb {
+      height: 175px;
+      width: 175px;
+      border: 1px solid #000;
+      padding: 5px;
+      margin: 0px 10px;
+  }
+  div.thumb {
+      float: left;
+  }
+  canvas {
+      border: 1px solid black;
+}
+  }
+  </style>
+
+  <body ng-controller="MainCtrl">
+
+
+    <div class="container" id="myWizard">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                <h3 class="mainHead">BUILD YOUR OWN PIZZA</h3>
+                </div>
+        </div>
+              
+              <div class="navbar">
+                  <div class="navbar-inner">
+                      <ul class="nav nav-pills nav-wizard" id="mytabs">
+                          <li class="active">
+                              <a class="hidden-xs" href="#step1" data-toggle="tab" data-step="1">SIZE & CRUST</a>
+                              <a class="visible-xs" href="#step1" data-toggle="tab" data-step="1">1.</a>
+                              <div class="nav-arrow"></div>
+                          </li>
+                          <li class="disabled">
+                              <div class="nav-wedge"></div>
+                              <a class="hidden-xs" href="#step2" data-toggle="tab" data-step="2" ng-click='step2();'>CHEESE & SAUCE</a>
+                              <a class="visible-xs" href="#step2" data-toggle="tab" data-step="2">2.</a>
+                              <div class="nav-arrow"></div>
+                          </li>
+                          <li class="disabled">
+                              <div class="nav-wedge"></div>
+                              <a class="hidden-xs" href="#step3" data-toggle="tab" data-step="3">TOPPINGS</a>
+                              <a class="visible-xs" href="#step3" data-toggle="tab" data-step="3">3.</a>
+                              <div class="nav-arrow"></div>
+                          </li>
+                          <li class="disabled">
+                              <div class="nav-wedge"></div>
+                              <a class="hidden-xs" href="#step4" data-toggle="tab" data-step="4">Dashboard</a>
+                              <a class="visible-xs" href="#step4" data-toggle="tab" data-step="4">4.</a>
+                              <div class="nav-arrow"></div>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+              <div class="tab-content">
+                  <div class="tab-pane fade in active" id="step1">
+                      <div class="well" ng-hide ="crustSave">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                            <h3 class="heading">CHOOSE SIZE & CRUST</h3>
+                          </div>
+                            <div class="col-xs-12 col-md-12">
+                                  <div class="form-group" id="sizeCrust">
+                            <div class="verticalLine">
+                              <label class="heading">HAND TOSSED </label><br><br>
+                              <p>Garlic-seasoned crust with a rich, buttery taste.</p><br><br>
+                              <div>
+                                <input type="radio" id="hndSmall" name="crust" value="hndSmall" checked="checked">
+                                <label for="hndSmall">Small(10'')</label>
+                              </div>
+
+                              <div>
+                                <input type="radio" id="hndMed" name="crust" value="hndMed">
+                                <label for="hndMed">Medium(12'')</label>
+                              </div>
+                              <div>
+                                <input type="radio" id="hndLarge" name="crust" value="hndLarge">
+                                <label for="hndLarge">Large(14'')</label>
+                            </div>
+                              <div>
+                                <input type="radio" id="hndX" name="crust" value="hndX">
+                                <label for="hndX">X-Large(16'')</label>
+                            </div>
+                            
+                            </div>
+                            <div class="verticalLine">
+                              <label class="heading">HANDMADE PAN </label><br><br>
+                              <p>Two layers of cheese. Toppings to the edge, and a crust that bakes up golden and crispy with a buttery taste.</p><br><br>
+                              <div>
+                                <input type="radio" id="panMed" name="crust" value="panMed">
+                                <label for="panMed">Medium(12'')</label>
+                              </div>
+                            </div>
+                            <div class="verticalLine">
+                              <label class="heading">CRUNCHY THIN CRUST</label><br><br>
+                              <p>Thin enough for the optimum crispy to crunchy ratio.</p><br><br>
+                               <div>
+                                <input type="radio" id="thinMed" name="crust" value="thinMed">
+                                <label for="thinMed">Medium(12'')</label>
+                              </div>
+
+                              <div>
+                                <input type="radio" id="thinLarge" name="crust" value="thinLarge">
+                                <label for="thinLarge">Large(14'')</label>
+                            </div>
+                          </div>
+                            <div class="verticalLine">
+                              <label class="heading">BROOKLYN STYLE</label><br><br>
+                              <p>Hand stretched to be big, thin and perfectly foldable.</p><br><br>
+                              <div>
+                                <input type="radio" id="brookLarge" name="crust" value="brookLarge">
+                                <label for="brookLarge">Large(14'')</label>
+                            </div>
+                              <div>
+                                <input type="radio" id="brookX" name="crust" value="brookX">
+                                <label for="brookX">X-Large(16'')</label>
+                            </div>
+                            </div>
+                            <div class="verticalLineToppingLastCrust">
+                              <label class="heading">GLUTEN FREE CRUST</label><br><br>
+                              <p>Domino's pizza made with a Gluten Free Crust.</p><br><br>
+                             <div>
+                                <input type="radio" id="gluSmall" name="crust" value="gluSmall">
+                                <label for="gluSmall">Small(10'')</label>
+                              </div>
+                            </div>
+
+                        </div>
+                            
+                      </div>
+                            
+                     </div>    
+                  </div>
+                  <div class="row">
+                            <div class="col-xs-3">
+                            </div>  
+                              <div class="col-xs-3">
+                                  <button class="btn btn-lg btn-block btn" type="submit" id="buildCrust">Build</button>
+                                </div>  
+                              <div class="col-xs-3">
+                                <button class="btn btn-lg btn-block btn" type="submit">Cancel</button>
+                              </div>
+                              
+                    </div>
+                     </div>
+                  <div class="tab-pane fade" id="step2">
+                      <div class="well" ng-hide ="cheeseSave">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                            <h3  class="heading">CHEESE & SAUCE</h3>
+                          </div>
+                            <div class="col-xs-12 col-md-12">
+                                  <div class="form-group" id="sizeCrust">
+                            <div class="verticalLineTopping50">
+                              <label class="heading">CHEESE</label> <br><br>
+                                <div ng-repeat="cheese1 in cheese">
+                                  
+                                  <div>
+                                    <input type="checkbox" ng-true-value="'{{cheese1.text}}'" ng-model="selectedcheese[cheese1.id]" ng-change="selectcheese(cheese1)">  
+                                    <label>{{cheese1.text}}</label>
+                                  </div>
+                                </div>
+                           </div>
+                           <div class="verticalLineToppingLast">
+                              <label class="heading">SAUCE</label> <br><br>
+                                <div ng-repeat="sauce1 in sauce">
+                                  
+                                  <div>
+                                    <input type="checkbox" ng-true-value="'{{sauce1.text}}'" ng-model="selectedsauce[sauce1.id]" ng-change="selectsauce(sauce1)">  
+                                     
+                                    <label>{{sauce1.text}}</label>
+                                  </div>
+                                </div>
+                           </div>
+                            
+
+                        </div>
+                            
+                      </div>
+                            
+                     </div>
+                          </div>
+                          
+                       <div class="row">
+                            <div class="col-xs-3">
+                            </div>  
+                              <div class="col-xs-3">
+                                  <button class="btn btn-lg btn-block btn" type="submit" id="buildCheeseSauce">Build</button>
+                                </div>  
+                              <div class="col-xs-3">
+                                <button class="btn btn-lg btn-block btn" type="submit">Cancel</button>
+                              </div>
+                              
+                    </div>
+                      </div>
+
+                  <div class="tab-pane fade" id="step4">
+
+                    <div class="col-xs-6">
+                    <div id="chart_div"></div>
+                  </div>
+                  <div class="col-xs-6">
+                    <div id = "container" style = "width: 570px; height: 440px; margin: 0 auto"></div>
+                  </div>
+                    <!-- <div id="sankey_multiple" style="width: 900px; height: 300px;"></div> -->
+                   <!--  <div class="outsideWrapper">
+                        <div class="insideWrapper">
+                            <img src="https://cache.dominos.com/olo/5_46_3/assets/build/market/US/_en/images/builder/pizza/toppings/B-1.png" class="coveredImage">
+                            <canvas class="coveringCanvas"></canvas>
+                        </div>
+                    </div>  -->
+                     <!--  <div id="pizzaCanvas" class="canvas-wrapper">  -->
+                     <!-- <div class="b-button js-fileapi-wrapper">
+                          <input type="file" id="files" name="files[]" multiple />
+                      </div>
+                      <p>
+                          <canvas id="canvasCombine"></canvas>
+                      </p>
+                      <br style="clear:both;" />
+                      <p id="outputContainer" style="display:none;">
+                          <button id="getImg">Get Img</button>
+                          <br />
+                          
+                          <br /> <span id="imgOutput"></span>
+
+                      </p> -->
+                      <!-- <img id="pizza" width="220" height="277" src="BK.png" alt="Pizza">
+                     <img id="ham" width="220" height="277" src="H-1.png" alt="Ham">
+                     <img id="pep" width="220" height="277" src="P-1.png" alt="Pepperoni">
+                     <img id="sal" width="220" height="277" src="Sa-1.png" alt="Salami">
+                     <img id="IS" width="220" height="277" src="S-1.png" alt="Italian Sausage">
+                      <img id="PC" width="220" height="277" src="Du-1.png" alt="Premium chicken">
+                      <img id="bacon" width="220" height="277" src="K-1.png" alt="Bacon">
+                      <img id="PS" width="220" height="277" src="Pm-1.png" alt="Philly Steak">
+                      <img id="beef" width="220" height="277" src="B-1.png" alt="Beef"> -->
+                     <!--  <img id="scream" width="220" height="277" src="BK.png" alt="The Scream">
+                      <img id="scream" width="220" height="277" src="BK.png" alt="The Scream">
+                      <img id="scream" width="220" height="277" src="BK.png" alt="The Scream"> -->
+
+                       <!--  <canvas id="myCanvas" width="300" height="297" style="border:1px solid #d3d3d3;"></canvas>  -->
+                        <!-- <canvas width="300" height="315" id="crust_canvas" style="display: block; position: absolute; z-index: 0;"></canvas>
+                        <canvas width="300" height="315" id="mask_canvas" style="display: block; position: absolute; z-index: 15;"></canvas>
+                        <canvas width="300" height="315" id="X_canvas" style="display: block; position: absolute; z-index: 1;"></canvas>
+                        <canvas width="300" height="315" id="C_canvas" style="display: block; position: absolute; z-index: 1;"></canvas>
+                        <canvas width="300" height="315" id="O_canvas" style="display: block; position: absolute; z-index: 3;"></canvas>
+                        <canvas width="300" height="315" id="R_canvas" style="display: block; position: absolute; z-index: 3;"></canvas>
+                        <canvas width="300" height="315" id="M_canvas" style="display: block; position: absolute; z-index: 3;"></canvas>
+                        <canvas width="300" height="315" id="G_canvas" style="display: block; position: absolute; z-index: 3;"></canvas>
+                        <canvas width="300" height="315" id="S_canvas" style="display: block; position: absolute; z-index: 2;"></canvas>
+                        <canvas width="300" height="315" id="B_canvas" style="display: block; position: absolute; z-index: 2;"></canvas>
+                        <canvas width="300" height="315" id="P_canvas" style="display: block; position: absolute; z-index: 1;"></canvas>
+                        <canvas width="300" height="315" id="H_canvas" style="display: block; position: absolute; z-index: 2;"></canvas>
+                        <canvas width="300" height="315" id="Ht_canvas" style="display: block; position: absolute; z-index: 4;"></canvas> -->
+                    <!-- </div> -->
+                 </div>
+                  <div class="tab-pane fade" id="step3">
+                      <div class="well" ng-hide ="toppingSave">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-12">
+                            <h3  class="heading">CHOOSE TOPPINGS</h3>
+                          </div>
+                            <div class="col-xs-12 col-md-12">
+                                  <div class="form-group" id="sizeCrust">
+                                    <div class="verticalLineToppingMeat">
+                                        <label class="heading">CHOOSE MEATS</label> <br><br>
+                                          <div ng-repeat="meat1 in meat">
+                                            
+                                            <div>
+                                              <input type="checkbox" ng-true-value="'{{meat1.text}}'" ng-model="selectedmeat[meat1.id]" ng-change="selectmeat(meat1)">  
+                                              <label>{{meat1.text}}</label>
+                                            </div>
+                                          </div>
+                                     </div>
+                                     <div class="verticalLineTopping">
+                                        <label>&nbsp;</label><br><br>
+                                          <div ng-repeat="meat1 in meat2">
+                                            
+                                            <div>
+                                              <input type="checkbox" ng-true-value="'{{meat1.text}}'" ng-model="selectedmeat[meat1.id]" ng-change="selectmeat(meat1)">  
+                                              <label>{{meat1.text}}</label>
+                                            </div>
+                                          </div>
+                                     </div>   
+                                     <div class="verticalLineToppingLast">
+                                        <label class="heading">CHOOSE NON-MEATS</label> <br><br>
+                                          <div ng-repeat="noMeat1 in noMeat">
+                                            
+                                            <div>
+                                              <input type="checkbox" ng-true-value="'{{noMeat1.text}}'" ng-model="selectednomeat[noMeat1.id]" ng-change="selectnomeat(noMeat1)">  
+                                              <label>{{noMeat1.text}}</label>
+                                            </div>
+                                          </div>
+                                     </div> 
+                                     <div class="verticalLineToppingLast">
+                                        <label>&nbsp;</label><br><br>
+                                          <div ng-repeat="noMeat1 in noMeat2">
+                                            
+                                            <div>
+                                              <input type="checkbox" ng-true-value="'{{noMeat1.text}}'" ng-model="selectednomeat[noMeat1.id]" ng-change="selectnomeat(noMeat1)">  
+                                              <label>{{noMeat1.text}}</label>
+                                            </div>
+                                          </div>
+                                     </div>         
+                           
+                        </div>
+                            
+                      </div>
+                            
+                     </div>
+                          </div>
+                          
+                       <div class="row">
+                            <div class="col-xs-3">
+                            </div>  
+                              <div class="col-xs-3">
+                                  <button class="btn btn-lg btn-block btn" type="submit" id="buildTopping">Build</button>
+                                </div>  
+                              <div class="col-xs-3">
+                                <button class="btn btn-lg btn-block btn" type="submit">Cancel</button>
+                              </div>
+                              
+                    </div>
+                  </div>
+                 
+              </div></div>
+
+
+          <div id="push"></div>
+
+  </body>
+ 
+  </html>
