@@ -1,0 +1,2 @@
+This is a copy of the Dominos Pizza builder where user select the type of base and then go ahead to build and land to the selection of sauce and then to the selection of the toppings and based on the users selection it will build the map of the pizza.
+This is the project to show the use of HTML and CSS along with the Map use in the UI. Not connected to database to store later but a session is kept to carry the data from one page to another.
